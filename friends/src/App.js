@@ -1,0 +1,42 @@
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
+import './reset.css';
+import GlobalStyle from './GlobalStyle';
+import FriendsList from './components/FriendsList';
+import FriendForm from './components/FriendForm';
+
+
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      friends: [],
+    }
+  }
+
+  refreshFriends() {
+    axios.get('http://localhost:5000/friends')
+      .then(res => {
+        this.setState({ friends: res.data })
+      })
+      .catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    this.refreshFriends();
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <GlobalStyle />
+        <FriendsList friends={this.state.friends} />
+        <FriendForm />
+      </React.Fragment>
+    );
+  }
+}
+
+export default App;
