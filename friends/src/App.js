@@ -1,34 +1,33 @@
 import React, { Component } from 'react';
-import {createGlobalStyle} from 'styled-components';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
 import './reset.css';
+import GlobalStyle from './GlobalStyle';
+import FriendsList from './components/FriendsList';
 
-const GlobalStyle = createGlobalStyle`
-  html {
-    font-size: 62.5%;
-  }
 
-  body {
-    width: 100vw;
-    min-height: 100vh;
-    font-size: 1.6rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    text-align:center;
-  }
-`
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      friends: [],
+    }
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:5000/friends')
+      .then(res => {
+        this.setState({ friends: res.data })
+      })
+      .catch(err => console.log(err))
+  }
+
   render() {
     return (
       <React.Fragment>
         <GlobalStyle />
-        <div className="App">
-          Hello World
-        </div>
+        <FriendsList friends={this.state.friends} />
       </React.Fragment>
     );
   }
