@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const UL = styled.ul`
-  width: 25rem;
+  flex-basis: 25rem;
   margin: 0.5em;
   padding: 0 1em;
   border: 1px solid black;

@@ -4,6 +4,7 @@ import axios from 'axios';
 import './reset.css';
 import GlobalStyle from './GlobalStyle';
 import FriendsList from './components/FriendsList';
+import FriendForm from './components/FriendForm';
 
 
 
@@ -28,6 +29,7 @@ class App extends Component {
       <React.Fragment>
         <GlobalStyle />
         <FriendsList friends={this.state.friends} />
+        <FriendForm />
       </React.Fragment>
     );
   }
