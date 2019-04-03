@@ -16,12 +16,16 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
+  refreshFriends() {
     axios.get('http://localhost:5000/friends')
       .then(res => {
         this.setState({ friends: res.data })
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    this.refreshFriends();
   }
 
   render() {

@@ -1,5 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const Input = styled.input`
+  margin: 0.5em;
+`
+
+const Button = styled.button`
+  margin: 0.5em;
+`
 
 class FriendForm extends React.Component {
   constructor(props) {
@@ -18,7 +27,7 @@ class FriendForm extends React.Component {
   }
 
   handleSubmit = e => {
-    e.preventDefault();
+    // e.preventDefault();
     axios.post('http://localhost:5000/friends', this.state)
       .then(res => console.log(res))
       .catch(err => console.log(err))
@@ -32,14 +41,14 @@ class FriendForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input
+        <Input
           type='text'
           placeholder='Name'
           name='name'
           value={this.state.name}
           onChange={this.handleChanges}
         />
-        <input
+        <Input
           type='number'
           min='0'
           placeholder='Age'
@@ -47,14 +56,14 @@ class FriendForm extends React.Component {
           value={this.state.age}
           onChange={this.handleChanges}
         />
-        <input
+        <Input
           type='email'
           placeholder='Email'
           name='email'
           value={this.state.email}
           onChange={this.handleChanges}
         />
-        <button type="submit">Add Friend</button>
+        <Button type="submit">Add Friend</Button>
       </form>
     )
   }
