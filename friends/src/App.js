@@ -53,6 +53,22 @@ class App extends Component {
       });
   };
 
+  updateFriend = friend => {
+    axios
+      .put(
+        `http://localhost:5000/friends/${friend.id}`,
+        friend
+      )
+      .then(res => {
+        this.setState({
+          friends: res.data,
+        });
+        console.log(res.data)
+        this.props.history.push(`/`)
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
     return (
       <WrapApp>
@@ -93,7 +109,7 @@ class App extends Component {
             <FriendForm
               {...props}
               activeFriend={this.state.activeFriend}
-              // onSubmit={this.updateFriend}
+              onSubmit={this.updateFriend}
             />
           )}
         />

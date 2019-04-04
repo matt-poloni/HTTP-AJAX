@@ -25,7 +25,6 @@ class FriendForm extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.activeFriend)
     this.setState({
       friend: this.props.activeFriend,
     })
@@ -61,7 +60,6 @@ class FriendForm extends React.Component {
   }
 
   render() {
-    console.log(this.state.friend)
     return (
       <Form onSubmit={this.handleSubmit}>
         <Input
