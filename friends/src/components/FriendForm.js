@@ -85,7 +85,7 @@ class FriendForm extends React.Component {
           onChange={this.handleChanges}
         />
         <Button type="submit">
-          {this.props.activeFriend ? 'Update' : 'Add'} Friend
+          {this.props.activeFriend.id ? 'Update' : 'Add'} Friend
         </Button>
       </Form>
     )

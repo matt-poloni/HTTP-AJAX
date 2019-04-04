@@ -10,6 +10,10 @@ const WrapFriendsList = styled.main`
 
 const UL = styled.ul`
   flex-basis: 25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 0.5em;
   padding: 0 1em;
   border: 1px solid black;
@@ -36,6 +40,14 @@ const FriendsList = props => {
 
   return (
     <WrapFriendsList>
+      <UL
+        onClick={e => {
+          e.preventDefault();
+          props.history.push(`/add-friend`);
+        }}
+      >
+        <Key>Add New Friend</Key>
+      </UL>
       {friends.map(friend =>
         <UL key={friend.id} onClick={e => routeToFriend(e, friend)}>
           {Object.keys(friend).map(key =>
