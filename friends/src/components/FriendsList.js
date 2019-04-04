@@ -1,12 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Friend from './Friend';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
 
 const WrapFriendsList = styled.main`
   display: flex;
@@ -15,19 +8,36 @@ const WrapFriendsList = styled.main`
   margin: 1em;
 `
 
+const UL = styled.ul`
+  flex-basis: 25rem;
+  margin: 0.5em;
+  padding: 0 1em;
+  border: 1px solid black;
+`
+
+const LI = styled.li`
+  margin: 1em 0;
+  text-align: left;
+`
+
+const Key = styled.span`
+  font-weight: bold;
+`
+
 const FriendsList = props => {
   const { friends } = props;
   return (
-    <Container>
-      <WrapFriendsList>
-        {friends.map(friend =>
-          <Friend
-            key={friend.id}
-            friend={friend}
-          />
-        )}
-      </WrapFriendsList>
-    </Container>
+    <WrapFriendsList>
+      {friends.map(friend =>
+        <UL key={friend.id}>
+          {Object.keys(friend).map(key =>
+            <LI key={key}>
+              <Key>{key}:</Key> {friend[key]}
+            </LI>
+          )}
+        </UL>
+      )}
+    </WrapFriendsList>
   )
 }
 

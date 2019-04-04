@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { Route } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import './reset.css';
@@ -44,7 +44,15 @@ class App extends Component {
     return (
       <WrapApp>
         <GlobalStyle />
-        <FriendsList friends={this.state.friends} />
+        <Route
+          exact path='/'
+          render={props =>
+            <FriendsList
+              {...props}
+              friends={this.state.friends}
+            />
+          }
+        />
         <FriendForm
           type='add'
           addFriend={this.addFriend}
