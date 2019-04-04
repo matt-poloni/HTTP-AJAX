@@ -42,7 +42,14 @@ const Friend = props => {
       >
         Update
       </button>
-      <button>Delete</button>
+      <button
+        onClick={e => {
+          e.preventDefault();
+          props.deleteFriend(friend.id)
+        }}
+      >
+        Delete
+      </button>
     </WrapFriend>
   )
 }

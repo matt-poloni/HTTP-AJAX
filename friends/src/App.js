@@ -63,7 +63,18 @@ class App extends Component {
         this.setState({
           friends: res.data,
         });
-        console.log(res.data)
+        this.props.history.push(`/`)
+      })
+      .catch(err => console.log(err));
+  };
+
+  deleteFriend = id => {
+    axios
+      .delete(`http://localhost:5000/friends/${id}`)
+      .then(res => {
+        this.setState({
+          friends: res.data,
+        });
         this.props.history.push(`/`)
       })
       .catch(err => console.log(err));
@@ -100,6 +111,7 @@ class App extends Component {
             <Friend
               {...props}
               activeFriend={this.state.activeFriend}
+              deleteFriend={this.deleteFriend}
             />
           )}
         />
