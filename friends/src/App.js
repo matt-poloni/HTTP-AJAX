@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import './reset.css';
 import GlobalStyle from './GlobalStyle';
 import FriendsList from './components/FriendsList';
 import FriendForm from './components/FriendForm';
+import Friend from './components/Friend';
 
 const WrapApp = styled.div`
   display: flex;
@@ -53,9 +54,31 @@ class App extends Component {
             />
           }
         />
-        <FriendForm
-          type='add'
-          addFriend={this.addFriend}
+        <Route
+          exact path='/add-friend'
+          render={props =>
+            <FriendForm
+              {...props}
+              type='add'
+              addFriend={this.addFriend}
+            />
+          }
+        />
+        <Route
+          exact path="/friend/:id"
+          render={props => (
+            <Friend
+              {...props}
+            />
+          )}
+        />
+        <Route
+          exact path="/friend/:id/update"
+          render={props => (
+            <FriendForm
+              {...props}
+            />
+          )}
         />
       </WrapApp>
     );
