@@ -22,11 +22,27 @@ const Key = styled.span`
 `
 
 const Friend = props => {
-  const id = props.match.params.id;
-
+  const friend = props.activeFriend;
+  
+  if(!friend) { return <div>Loading data...</div> }
   return (
     <WrapFriend>
-      <div>{id}</div>
+      <ul>
+        {Object.keys(friend).map(key =>
+          <li key={key}>
+            <span>{key}:</span> {friend[key]}
+          </li>
+        )}
+      </ul>
+      <button
+        onClick={e => {
+          e.preventDefault();
+          props.history.push(`${friend.id}/update`);
+        }}
+      >
+        Update
+      </button>
+      <button>Delete</button>
     </WrapFriend>
   )
 }

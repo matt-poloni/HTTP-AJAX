@@ -20,37 +20,55 @@ class FriendForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      age: '',
-      email: '',
+      friend: this.props.activeFriend,
     }
+  }
+
+  componentDidMount() {
+    console.log(this.props.activeFriend)
+    this.setState({
+      friend: this.props.activeFriend,
+    })
   }
 
   handleChanges = e => {
     e.persist();
     e.target.name === 'age'
-      ? this.setState({ [e.target.name]: Number(e.target.value) })
-      : this.setState({ [e.target.name]: e.target.value })
+      ? this.setState(prevState => ({
+        friend: {
+          ...prevState.friend,
+          [e.target.name]: Number(e.target.value)
+        }
+      }))
+      : this.setState(prevState => ({
+        friend: {
+          ...prevState.friend,
+          [e.target.name]: e.target.value
+        }
+      }));
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.addFriend(this.state);
+    this.props.onSubmit(this.state.friend);
     this.setState({
-      name: '',
-      age: '',
-      email: '',
+      friend: {
+        name: '',
+        age: '',
+        email: '',
+      }
     })
   }
 
   render() {
+    console.log(this.state.friend)
     return (
       <Form onSubmit={this.handleSubmit}>
         <Input
           type='text'
           placeholder='Name'
           name='name'
-          value={this.state.name}
+          value={this.state.friend.name}
           onChange={this.handleChanges}
         />
         <Input
@@ -58,17 +76,19 @@ class FriendForm extends React.Component {
           min='0'
           placeholder='Age'
           name='age'
-          value={this.state.age}
+          value={this.state.friend.age}
           onChange={this.handleChanges}
         />
         <Input
           type='email'
           placeholder='Email'
           name='email'
-          value={this.state.email}
+          value={this.state.friend.email}
           onChange={this.handleChanges}
         />
-        <Button type="submit">Add Friend</Button>
+        <Button type="submit">
+          {this.props.activeFriend ? 'Update' : 'Add'} Friend
+        </Button>
       </Form>
     )
   }

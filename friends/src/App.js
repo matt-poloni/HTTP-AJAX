@@ -19,6 +19,11 @@ class App extends Component {
     super(props);
     this.state = {
       friends: [],
+      activeFriend: {
+        name: '',
+        age: '',
+        email: '',
+      },
     }
   }
   
@@ -29,6 +34,13 @@ class App extends Component {
       })
       .catch(err => console.log(err.response));
   }
+
+  getItemById = id => {
+    axios
+      .get(`http://localhost:5000/friends`)
+      .then(res => this.setState({ activeFriend: res.data.filter(friend => friend.id === id)[0] }))
+      .catch(err => console.log(err));
+  };
 
   addFriend = newFriend => {
     axios
@@ -51,6 +63,7 @@ class App extends Component {
             <FriendsList
               {...props}
               friends={this.state.friends}
+              getItemById={this.getItemById}
             />
           }
         />
@@ -60,7 +73,8 @@ class App extends Component {
             <FriendForm
               {...props}
               type='add'
-              addFriend={this.addFriend}
+              activeFriend={this.state.activeFriend}
+              onSubmit={this.addFriend}
             />
           }
         />
@@ -69,6 +83,7 @@ class App extends Component {
           render={props => (
             <Friend
               {...props}
+              activeFriend={this.state.activeFriend}
             />
           )}
         />
@@ -77,6 +92,8 @@ class App extends Component {
           render={props => (
             <FriendForm
               {...props}
+              activeFriend={this.state.activeFriend}
+              // onSubmit={this.updateFriend}
             />
           )}
         />
