@@ -2,50 +2,71 @@ import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-const Input = styled.input`
-  margin: 0.5em;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  max-width: 40rem;
+  margin: 0.25em;
 `
 
+const Input = styled.input`
+  margin: 0.25em;
+`
 const Button = styled.button`
-  margin: 0.5em;
+  margin: 0.25em;
 `
 
 class FriendForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      age: '',
-      email: '',
+      friend: this.props.activeFriend,
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      friend: this.props.activeFriend,
+    })
+  }
+
   handleChanges = e => {
+    e.persist();
     e.target.name === 'age'
-      ? this.setState({ [e.target.name]: Number(e.target.value) })
-      : this.setState({ [e.target.name]: e.target.value })
+      ? this.setState(prevState => ({
+        friend: {
+          ...prevState.friend,
+          [e.target.name]: Number(e.target.value)
+        }
+      }))
+      : this.setState(prevState => ({
+        friend: {
+          ...prevState.friend,
+          [e.target.name]: e.target.value
+        }
+      }));
   }
 
   handleSubmit = e => {
-    // e.preventDefault();
-    axios.post('http://localhost:5000/friends', this.state)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
+    e.preventDefault();
+    this.props.onSubmit(this.state.friend);
     this.setState({
-      name: '',
-      age: '',
-      email: '',
+      friend: {
+        name: '',
+        age: '',
+        email: '',
+      }
     })
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
         <Input
           type='text'
           placeholder='Name'
           name='name'
-          value={this.state.name}
+          value={this.state.friend.name}
           onChange={this.handleChanges}
         />
         <Input
@@ -53,18 +74,20 @@ class FriendForm extends React.Component {
           min='0'
           placeholder='Age'
           name='age'
-          value={this.state.age}
+          value={this.state.friend.age}
           onChange={this.handleChanges}
         />
         <Input
           type='email'
           placeholder='Email'
           name='email'
-          value={this.state.email}
+          value={this.state.friend.email}
           onChange={this.handleChanges}
         />
-        <Button type="submit">Add Friend</Button>
-      </form>
+        <Button type="submit">
+          {this.props.activeFriend.id ? 'Update' : 'Add'} Friend
+        </Button>
+      </Form>
     )
   }
 }

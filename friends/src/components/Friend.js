@@ -1,5 +1,9 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import styled from 'styled-components';
+import FriendForm from './FriendForm';
+
+const WrapFriend = styled.div``
 
 const UL = styled.ul`
   flex-basis: 25rem;
@@ -18,15 +22,35 @@ const Key = styled.span`
 `
 
 const Friend = props => {
-  const { friend } = props;
+  const friend = props.activeFriend;
+  
+  if(!friend) { return <div>Loading data...</div> }
   return (
-    <UL>
-      {Object.keys(friend).map(key =>
-        <LI key={key}>
-          <Key>{key}:</Key> {friend[key]}
-        </LI>
-      )}
-    </UL>
+    <WrapFriend>
+      <ul>
+        {Object.keys(friend).map(key =>
+          <li key={key}>
+            <span>{key}:</span> {friend[key]}
+          </li>
+        )}
+      </ul>
+      <button
+        onClick={e => {
+          e.preventDefault();
+          props.history.push(`${friend.id}/update`);
+        }}
+      >
+        Update
+      </button>
+      <button
+        onClick={e => {
+          e.preventDefault();
+          props.deleteFriend(friend.id)
+        }}
+      >
+        Delete
+      </button>
+    </WrapFriend>
   )
 }
 

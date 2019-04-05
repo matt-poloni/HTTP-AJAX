@@ -1,12 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Friend from './Friend';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
 
 const WrapFriendsList = styled.main`
   display: flex;
@@ -15,19 +8,56 @@ const WrapFriendsList = styled.main`
   margin: 1em;
 `
 
+const UL = styled.ul`
+  flex-basis: 25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5em;
+  padding: 0 1em;
+  border: 1px solid black;
+  cursor: pointer;
+`
+
+const LI = styled.li`
+  margin: 1em 0;
+  text-align: left;
+`
+
+const Key = styled.span`
+  font-weight: bold;
+`
+
 const FriendsList = props => {
   const { friends } = props;
+
+  function routeToFriend(e, friend) {
+    e.preventDefault();
+    props.getItemById(friend.id);
+    props.history.push(`/friend/${friend.id}`);
+  }
+
   return (
-    <Container>
-      <WrapFriendsList>
-        {friends.map(friend =>
-          <Friend
-            key={friend.id}
-            friend={friend}
-          />
-        )}
-      </WrapFriendsList>
-    </Container>
+    <WrapFriendsList>
+      <UL
+        onClick={e => {
+          e.preventDefault();
+          props.history.push(`/add-friend`);
+        }}
+      >
+        <Key>Add New Friend</Key>
+      </UL>
+      {friends.map(friend =>
+        <UL key={friend.id} onClick={e => routeToFriend(e, friend)}>
+          {Object.keys(friend).map(key =>
+            <LI key={key}>
+              <Key>{key}:</Key> {friend[key]}
+            </LI>
+          )}
+        </UL>
+      )}
+    </WrapFriendsList>
   )
 }
 
